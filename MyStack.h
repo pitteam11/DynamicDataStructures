@@ -1,27 +1,63 @@
 #pragma once
 #include <iostream>
 
-using namespace std;
+template <typename T>
+class MyStack
+{
+	int maxcounter = 0;
+	int counter = 0;
+	T* stack = nullptr;
 
-struct Node {
-	int val;
-	Node* next;
-};
-
-class MyStack{
-	Node* head = nullptr;
-	int size = 0;
 
 public:
-	MyStack() {};
+	explicit MyStack(int maxcounter) 
+		: maxcounter{maxcounter} {
+		stack = new T[maxcounter];
+	}
 
-	void push_back(int val) {
-		Node node;
-		node.val = val;
-		Node* currnode = head;
-		while (currnode->next != nullptr)
-			currnode = currnode->next;
-		currnode->next = &node;
+	~MyStack() {
+		if (stack != nullptr)
+			delete[] stack;
+	}
+
+	void push(T& val) {
+		if (counter < maxcounter)
+			stack[counter++] = val;
+		else
+			std::cout << "Error! Stack overflow\n";
+	}
+
+	void push(T&& val) {
+		if (counter < maxcounter)
+			stack[counter++] = val;
+		else
+			std::cout << "Error! Stack overflow\n";
+	}
+
+	void emplace(T& val) {
+		push(val);
+	}
+
+	bool isEmpty() const {
+		return !counter;
+	}
+
+	bool isFull() const {
+		return (counter == maxcounter);
+	}
+
+	int size() const {
+		return counter;
+	}
+
+	T& top() const {
+		if (!isEmpty())
+			return stack[counter-1];
+	}
+
+	void pop() {
+		if (!isEmpty())
+			--counter;
 	}
 };
 

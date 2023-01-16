@@ -1,6 +1,9 @@
 #include <iostream>
 #include "MyStack.h"
 #include "MyQueue.h"
+#include "MyQueueRing.h"
+#include <string>
+#include "QueuePriority.h"
 
 using namespace std;
 
@@ -100,7 +103,7 @@ void remove(int &sz, Student*& sts, int id) {
 	sz--;
 }
 
-void main() {
+void test_students() {
 	int sz = 0;
 	Student* sts = new Student[sz];
 	add(sz, sts, Student{ "Ivan", 1 });
@@ -113,18 +116,34 @@ void main() {
 	show(sz, sts);
 	sz = 0;
 	delete[] sts;
+}
 
-
-
-	/*
-	MyQueue<int> line(20);
-	line.push(12);
-	line.push(14);
-	line.push(17);
+void test_MyQueueRing() {
+	MyQueueRing2<string> line(7);
+	string str;
+	for (int k = 49; k <= 59; k++) {
+		str.push_back(k);
+		line.push(str);
+	}
 
 	while (!line.isEmpty()) {
 		cout << line.top() << " ";
 		line.pop();
 	}
-	*/
+}
+
+
+void main() {
+	MyQueuePriority<int> line(20);
+	line.push(1, 200);
+	line.push(2, 300);
+	line.push(3, 100);
+
+	int pr = 0;
+
+	while (!line.isEmpty()) {
+		cout << line.top(pr) << " - " << pr << endl;		line.pop();
+	}
+
+
 }

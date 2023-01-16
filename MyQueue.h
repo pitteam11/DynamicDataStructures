@@ -4,6 +4,7 @@
 template <typename T>
 class MyQueue
 {
+protected:
 	int maxcounter;
 	int counter = 0;
 	T *queue = nullptr;

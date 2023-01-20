@@ -33,7 +33,7 @@ public:
 	}
 
 	void pushToTail(T& value) {
-		Node* buff = head;
+		Node<T>* buff = head;
 		while (buff->next != nullptr)
 			buff = buff->next;
 		buff->next = new Node<T>{ value, nullptr};		
@@ -73,6 +73,35 @@ public:
 		}
 		buff->next = new Node{ value, buff->next };
 	}
+
+	void replaceToPos(T&& value, int pos) {
+		if (pos == 0) {
+			head->value = value;
+			return;
+		}
+		Node<T>* buff = head;
+		int counter = 0;
+		while (buff->next != nullptr && pos != counter + 1) {
+			buff = buff->next;
+			counter++;
+		}
+		buff->next->value = value;
+	}
+
+	void replaceToPos(T& value, int pos) {
+		if (pos == 0) {
+			head->value = value;
+			return;
+		}
+		Node<T>* buff = head;
+		int counter = 0;
+		while (buff->next != nullptr && pos != counter + 1) {
+			buff = buff->next;
+			counter++;
+		}
+		buff->next->value = value;
+	}
+
 
 	void removeFromHead() {
 		if (head != nullptr) {
@@ -123,4 +152,18 @@ public:
 			cout << endl;
 		}
 	}
+
+	int size() const {
+		if (head != nullptr) {
+			int res = 0;
+			Node<T>* buff = head;
+			while (buff != nullptr) {
+				buff = buff->next;
+				res++;
+			}
+			return res;
+		}
+		return 0;
+	}
+
 };

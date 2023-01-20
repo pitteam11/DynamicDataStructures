@@ -18,5 +18,14 @@ void main() {
 	list.show();
 	list.removeFromPos(0);
 	list.show();
+	cout << "size: " << list.size() << endl;
+	list.replaceToPos(111, 1);
+	list.show();
+
+	int a = 112;
+	list.replaceToPos(a, 1);
+	list.show();
+
+
 	list.clear();
 }

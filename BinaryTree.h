@@ -96,5 +96,114 @@ public:
 			show(node->r);
 	}
 
+	Node* find(int id) {
+		if (size == 0)
+			return nullptr;
+		Node* node = root;
+		while (1) {
+			if (id == node->id)
+				return node;
+			if (id > node->id) {
+				if (node->r != nullptr)
+					node = node->r;
+				else {
+					return nullptr;
+				}
+			}
+			else {
+				if (node->l != nullptr)
+					node = node->l;
+				else {
+					return nullptr;
+				}
+			}
+		}
+	}
 
+	void remove(int id) {
+		Node* node = find(id);
+		if (node == nullptr)
+			return;
+		if (size == 1) {
+			delete node;
+			root = nullptr;
+			size--;
+			return;
+		}			
+		if (node->l == nullptr && node->r == nullptr) {
+			if (node->p->l == node) 
+				node->p->l = nullptr;
+			else 
+				node->p->r = nullptr;
+			delete node;
+			size--;
+			return;
+		}		
+		if (node->l == nullptr) {
+			if (node->p->l == node) {
+				node->p->l = node->r;
+				node->r->p = node->p->l;
+				delete node;
+				size--;
+				return;
+			}			
+			if (node->p->r == node) {
+				node->p->r = node->r;
+				node->r->p = node->p->r;
+				delete node;
+				size--;
+				return;
+			}			
+		}
+		if (node->r == nullptr) {
+			if (node->p->l == node) {
+				node->p->l = node->l;
+				node->l->p = node->p->l;
+				delete node;
+				size--;
+				return;
+			}
+			if (node->p->r == node) {
+				node->p->r = node->l;
+				node->l->p = node->p->r;
+				delete node;
+				size--;
+				return;
+			}
+		}
+		Node* iter = node->r;
+		while (iter->l != nullptr)
+			iter = iter->l;
+		if (node != root) {			
+			if (node->p->l == node) {
+				node->p->l = iter;
+				//iter->l = node->l;
+				iter->r = node->r;
+				delete node;
+				size--;
+				return;
+			}
+			else {
+				node->p->r = iter;
+				iter->l = node->l;
+				node->r->l = nullptr; // костыль для конкретного случая
+				iter->r = node->r;
+				delete node;
+				size--;
+				return;
+			}
+		} 
+		if (iter->p->r == iter)
+			iter->p->r = nullptr;
+		else
+			iter->p->l = nullptr;
+		iter->l = root->l;
+		Node* iter2 = iter;
+		while (iter2->r != nullptr)
+			iter2 = iter2->r;
+		iter2->r = root->r;
+		root = iter;
+		delete node;
+		size--;
+	}
 };

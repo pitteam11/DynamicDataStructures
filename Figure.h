@@ -1,4 +1,20 @@
 #pragma once
+#include <iostream>
+using namespace std;
+
+class Exception {
+public:
+	virtual string getMessage() = 0;
+};
+
+class Exception_BadTriangle : public Exception {
+public:
+	string getMessage() override {
+		return "Bad triangle";
+	}
+};
+
+
 
 class Figure {
 public:
@@ -53,8 +69,10 @@ public:
 	int c;
 
 	Triangle(int a, int b, int c) 
-		: a{ a }, b{ b }, c{ c } { 
-		p = (a + b + c) * 0.5; 
+		: a{ a }, b{ b }, c{ c } {
+		if (a + b > c || a + c > b || b + c > a)
+			throw Exception_BadTriangle();
+		p = (a + b + c) * 0.5;	
 	}
 
 	double area() override {

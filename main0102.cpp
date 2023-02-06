@@ -124,9 +124,12 @@ void test_animals() {
 }
 
 void main() {
-	Figure* pFig = new Triangle(1, 1, 10); /*Figure();*/
-	
-	cout << "Area: " << pFig->area() << endl;
-
-	delete pFig;
+	try {
+		Figure* pFig = new Triangle(1, 1, 10); /*Figure();*/
+		cout << "Area: " << pFig->area() << endl;
+		delete pFig;
+	} 
+	catch (Exception& e) {
+		cout << e.getMessage() << endl;
+	}
 }
